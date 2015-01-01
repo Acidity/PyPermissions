@@ -60,6 +60,9 @@ class Permission(object):
     def __repr__(self):
         return "{cls}({name}, {desc})".format(cls=self.__class__.__name__, name=self.name, desc=self.description)
 
+    def __hash__(self):
+        return 17 * self.name.__hash__() + 19 * self.description.__hash__()
+
 
 class WildcardPermission(Permission):
     """This class consists of all permissions that are composed of one or more segments which are a wildcard. This
