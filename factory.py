@@ -47,3 +47,6 @@ class PermissionFactory(object):
         return "{cls}({prefix}, {d}, {w})".format(cls=self.__class__.__name__, prefix=self.prefix[:-1], w=self.wildcard,
                                                   d=self.delimiter)
 
+    def __eq__(self, other):
+        return self.delimiter == other.delimiter and self.wildcard == other.wildcard and self.prefix == other.prefix
+
