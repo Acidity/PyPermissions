@@ -1,12 +1,8 @@
-PERMISSION_DELIMITER = "."
-PERMISSION_WILDCARD = "*"
-
-
 class Permission(object):
     """This class represents the most basic permission possible. It has any number of segments, but is fully defined by
     it's name and has no wildcards, so it grants only itself."""
 
-    def __init__(self, name, description=None):
+    def __init__(self, name, description=None, delimiter="."):
         """Create a Permission object with the specified name and optional description.
 
         :param name: The string representing the name of the permission. This indicates what the permission grants.
@@ -14,7 +10,8 @@ class Permission(object):
         :rtype: :py:class`Permission` representing the supplied values.
         """
 
-        self.name = name
+        self.delimiter = delimiter
+        self.segments = name.split(self.delimiter)
         self.description = description
 
     def grants_permission(self, other_permission):
@@ -43,13 +40,13 @@ class Permission(object):
         return any(self.grants_permission(perm) for perm in permission_set)
 
     @property
-    def segments(self):
-        """Returns the list of permission segments that compose this permission.
+    def name(self):
+        """Returns the name of this permission.
 
-        :rtype: :py:class`list`
+        :rtype: :py:class`str`
         """
 
-        return self.name.split(PERMISSION_DELIMITER)
+        return self.delimiter.join(self.segments)
 
     def __eq__(self, other):
         return self.name == other.name
@@ -63,11 +60,27 @@ class Permission(object):
     def __hash__(self):
         return 17 * self.name.__hash__() + 19 * self.description.__hash__()
 
+    @staticmethod
+    def meets_requirements(permission, **kwargs):
+        if permission:
+            return True
+        return False
+
 
 class WildcardPermission(Permission):
     """This class consists of all permissions that are composed of one or more segments which are a wildcard. This
     allows for easily giving multiple permissions of the same form to users, especially when the number of permissions
     is large, infinite, or undetermined."""
+
+    def __init__(self, wildcard="*", *args, **kwargs):
+        """Creates a WildcardPermission, with an optional custom wildcard character.
+
+        :param wildcard: The character to be used as the wildcard. Default: "*"
+        """
+
+        super(WildcardPermission, self).__init__(*args, **kwargs)
+
+        self.wildcard = wildcard
 
     @property
     def is_end_wildcard(self):
@@ -77,7 +90,7 @@ class WildcardPermission(Permission):
         :rtype: True or False
         """
 
-        return self.segments[len(self.segments)-1] == PERMISSION_WILDCARD
+        return self.segments[len(self.segments)-1] == self.wildcard
 
     def grants_permission(self, other_permission):
         """Checks whether this permission grants the supplied permission.
@@ -97,10 +110,16 @@ class WildcardPermission(Permission):
             return False
 
         for s, o in zip(self.segments, other_permission.segments):
-            if s != o and s != PERMISSION_WILDCARD:
+            if s != o and s != self.wildcard:
                 return False
 
         return True
+
+    @staticmethod
+    def meets_requirements(permission, wildcard="*", **kwargs):
+        if wildcard in permission:
+            return True
+        return False
 
 
 class PermissionSet(set):
