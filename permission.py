@@ -72,12 +72,13 @@ class WildcardPermission(Permission):
     allows for easily giving multiple permissions of the same form to users, especially when the number of permissions
     is large, infinite, or undetermined."""
 
-    def __init__(self, wildcard="*", *args, **kwargs):
+    def __init__(self, *args, **kwargs):
         """Creates a WildcardPermission, with an optional custom wildcard character.
 
-        :param wildcard: The character to be used as the wildcard. Default: "*"
+        :param wildcard: The character to be used as the wildcard. Must be provided as a kw argument. Default: "*"
         """
 
+        wildcard = kwargs.pop("wildcard", "*")
         super(WildcardPermission, self).__init__(*args, **kwargs)
 
         self.wildcard = wildcard
