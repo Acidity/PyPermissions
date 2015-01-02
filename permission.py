@@ -1,6 +1,8 @@
 class Permission(object):
     """This class represents the most basic permission possible. It has any number of segments, but is fully defined by
-    it's name and has no wildcards, so it grants only itself."""
+    it's name and has no wildcards, so it grants only itself. Note: Permissions with different delimiters and wildcards
+    are treated as the same, so don't use multiple delimiters or wildcards unless you know completely what you're doing.
+    """
 
     def __init__(self, name, description=None, delimiter="."):
         """Create a Permission object with the specified name and optional description.
