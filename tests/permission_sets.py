@@ -1,15 +1,15 @@
 import unittest
-from permission import Permission, WildcardPermission, PermissionSet, PERMISSION_DELIMITER, PERMISSION_WILDCARD
+from permission import Permission, WildcardPermission, PermissionSet
 
 
 class PermissionSetTests(unittest.TestCase):
 
     def setUp(self):
-        self.p1 = Permission("test{0}1{0}hello".format(PERMISSION_DELIMITER))
-        self.p2 = Permission("test{0}2{0}hello".format(PERMISSION_DELIMITER))
+        self.p1 = Permission("test.1.hello")
+        self.p2 = Permission("test.2.hello")
         self.p3 = Permission("test")
-        self.p4 = Permission("test{0}1{0}hello".format(PERMISSION_DELIMITER))
-        self.p5 = WildcardPermission("test{0}{1}".format(PERMISSION_DELIMITER, PERMISSION_WILDCARD))
+        self.p4 = Permission("test.1.hello")
+        self.p5 = WildcardPermission("test.*")
         self.ps1 = PermissionSet({self.p1, self.p2})
         self.ps2 = PermissionSet({self.p1, self.p4})
         self.ps3 = PermissionSet({self.p1})
