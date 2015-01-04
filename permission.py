@@ -82,6 +82,8 @@ class Permission(object):
         return self.delimiter.join(self.segments)
 
     def __eq__(self, other):
+        if not hasattr(other, "name"):
+            return False
         return self.name == other.name
 
     def __ne__(self, other):
