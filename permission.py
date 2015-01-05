@@ -84,7 +84,11 @@ class Permission(object):
     def __eq__(self, other):
         if not hasattr(other, "name"):
             return False
-        return self.name == other.name
+        if not self.description:
+            return self.name == other.name
+        if not hasattr(other, "description"):
+            return False
+        return self.name == other.name and self.description == other.description
 
     def __ne__(self, other):
         return not self.__eq__(other)
