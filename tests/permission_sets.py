@@ -1,5 +1,5 @@
 import unittest
-from permission import Permission, WildcardPermission, PermissionSet
+from permission import Permission, PermissionSet
 
 
 class PermissionSetTests(unittest.TestCase):
@@ -9,7 +9,7 @@ class PermissionSetTests(unittest.TestCase):
         self.p2 = Permission("test.2.hello")
         self.p3 = Permission("test")
         self.p4 = Permission("test.1.hello")
-        self.p5 = WildcardPermission("test.*")
+        self.p5 = Permission("test.*")
         self.ps1 = PermissionSet({self.p1, self.p2})
         self.ps2 = PermissionSet({self.p1, self.p4})
         self.ps3 = PermissionSet({self.p1})
