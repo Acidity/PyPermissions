@@ -137,7 +137,7 @@ class PermissionSet(set):
         """
 
         if isinstance(other_permission, basestring):
-            other_permission = WildcardPermission(name=other_permission)
+            other_permission = Permission(name=other_permission)
 
         return other_permission.grants_any_permission(self)
 
