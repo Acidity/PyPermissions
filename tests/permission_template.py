@@ -1,6 +1,8 @@
 import unittest
-from permission import Permission
-from templates import PermissionTemplate
+
+from pypermissions.permission import Permission
+from pypermissions.templates import PermissionTemplate
+
 
 class PermissionTemplateTests(unittest.TestCase):
 

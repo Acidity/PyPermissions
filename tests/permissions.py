@@ -1,5 +1,6 @@
 import unittest
-from permission import Permission
+
+from pypermissions.permission import Permission
 
 
 class BasicPermissionTests(unittest.TestCase):

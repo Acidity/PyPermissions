@@ -1,4 +1,4 @@
-from permission import Permission
+from pypermissions.permission import Permission
 
 
 class PermissionFactory(object):

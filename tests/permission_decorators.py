@@ -1,6 +1,7 @@
 import unittest
-from permission import Permission, PermissionSet
-from decorators import set_grants_permission, set_has_any_permission
+
+from pypermissions.permission import Permission, PermissionSet
+from pypermissions.decorators import set_grants_permission, set_has_any_permission
 
 
 def ret_false(*args, **kw):

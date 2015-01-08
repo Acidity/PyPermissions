@@ -1,7 +1,8 @@
 import unittest
-from permission import Permission, DynamicPermission
-from templates import PermissionTemplate
-from factory import PermissionFactory
+
+from pypermissions.permission import Permission, DynamicPermission
+from pypermissions.templates import PermissionTemplate
+from pypermissions.factory import PermissionFactory
 
 
 class TestLessThanPermission(DynamicPermission):

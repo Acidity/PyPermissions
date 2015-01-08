@@ -1,4 +1,4 @@
-from permission import PermissionSet
+from pypermissions.permission import PermissionSet
 
 
 def _prepare_runtime_permission(self, perm=None, runkw=None, args=None, kwargs=None):
