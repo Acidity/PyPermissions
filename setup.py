@@ -8,7 +8,7 @@ setup(
     description = "An extensible permissions framework for granular access control.",
     license = "MIT",
     keywords = "permissions access control",
-    url = "http://packages.python.org/pypermissions",
+    url = "https://pypi.python.org/pypi/PyPermissions",
     packages = ['pypermissions', 'tests'],
     classifiers = [
         "Development Status :: 3 - Alpha",
