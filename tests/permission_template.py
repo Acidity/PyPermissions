@@ -62,9 +62,9 @@ class PermissionTemplateTests(unittest.TestCase):
         self.assertEqual(self.t2.create_permission("test.1.hello"), self.p4)
         self.assertFalse(self.t2.create_permission("test"))
         self.assertFalse(self.t2.create_permission("test.1.*"))
-        self.assertEqual(self.t3.create_permission("test.1.*"), self.p1)
+        self.assertNotEqual(self.t3.create_permission("test.1.*"), self.p1)
         self.assertEqual(self.t3.create_permission("test.2.hello"), self.p2)
-        self.assertEqual(self.t3.create_permission("test.2.*"), self.p6)
+        self.assertNotEqual(self.t3.create_permission("test.2.*"), self.p6)
         self.assertEqual(self.t3.create_permission("test.1.hello"), self.p4)
 
 
