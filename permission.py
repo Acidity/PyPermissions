@@ -106,6 +106,42 @@ class Permission(object):
         return False
 
 
+class DynamicPermission(Permission):
+    """Dynamic permissions are used for cases where you want to grant permissions that require state. These permissions
+    require additional information in order to be evaluated (such as access to a database). This class serves as the
+    base for dynamic permissions."""
+
+    # The list of templates that this dynamic permission uses to match other permissions.
+    templates = []
+
+    def grants_permission(self, other_permission):
+        """Checks whether this permission grants the supplied permission.
+
+        :param other_permission: The permission that we're checking
+        :type other_permission: :py:class:`Permission` or :py:class:`basestring`
+        :rtype: True or False
+        """
+
+        for template in self.templates:
+            matches, m = template.matches_format(other_permission)
+            if matches:
+                return self._grants_permission(m, template)
+
+        return False
+
+    def _grants_permission(self, components, template):
+        """This method is where you define the stateful logic of your dynamic permission. Only permissions that match
+        the formats you specified with your templates will reach this code, and only the wildcard portion of the
+        template is returned. The template is supplied so that you know how to parse the components.
+
+        :param components: A :py:class:`list` containing the portions of the other permission tht matched the template
+        :param template: The :py:class:`PermissionTemplate` that matched the permission.
+        :rtype: True or False
+        """
+
+        raise NotImplementedError()
+
+
 class PermissionSet(set):
 
     def grants_permission(self, other_permission):
