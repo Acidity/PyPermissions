@@ -48,6 +48,9 @@ class Permission(object):
         :rtype: True or False
         """
 
+        if other_permission is None:
+            return True
+
         if isinstance(other_permission, basestring):
             other_permission = Permission(name=other_permission)
 
@@ -76,7 +79,7 @@ class Permission(object):
     def name(self):
         """Returns the name of this permission.
 
-        :rtype: :py:class`str`
+        :rtype: :py:class:`str`
         """
 
         return self.delimiter.join(self.segments)
@@ -134,7 +137,7 @@ class DynamicPermission(Permission):
         the formats you specified with your templates will reach this code, and only the wildcard portion of the
         template is returned. The template is supplied so that you know how to parse the components.
 
-        :param components: A :py:class:`list` containing the portions of the other permission tht matched the template
+        :param components: A :py:class:`list` containing the portions of the other permission that matched the template
         :param template: The :py:class:`PermissionTemplate` that matched the permission.
         :rtype: True or False
         """
