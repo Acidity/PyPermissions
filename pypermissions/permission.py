@@ -20,6 +20,7 @@ class Permission(object):
         self.segments = name.split(self.delimiter)
         self.description = description
         self.wildcard = wildcard
+        self.state = dict()
 
     @property
     def is_wildcard(self):
@@ -149,6 +150,14 @@ class DynamicPermission(Permission):
 
         raise NotImplementedError()
 
+    def create_stateful_permission(self, state):
+        if self.state:
+            raise Exception("You cannot create a stateful permission from a stateful permission")
+        new_perm = self.__class__(name=self.name, description=self.description,
+                                  delimiter=self.delimiter, wildcard=self.wildcard)
+        new_perm.state = state
+        return new_perm
+
 
 class PermissionSet(set):
 
@@ -184,6 +193,21 @@ class PermissionSet(set):
             other_permission = Permission(name=other_permission)
 
         return other_permission.grants_any_permission(self)
+
+    def statefulize(self, state=None):
+        delete = list()
+        add = list()
+
+        for perm in self:
+            if hasattr(perm, 'create_stateful_permission') and not perm.state:
+                add.append(perm.create_stateful_permission(state))
+                delete.append(perm)
+
+        for perm in add:
+            self.add(perm)
+
+        for perm in delete:
+            self.remove(perm)
 
     def __getattr__(self, item):
         ret = getattr(super(PermissionSet, self), item)
