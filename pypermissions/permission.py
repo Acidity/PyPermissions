@@ -125,6 +125,11 @@ class DynamicPermission(Permission):
         :rtype: True or False
         """
 
+        other = other_permission.name if hasattr(other_permission, 'name') else other_permission
+
+        if other == self.name:
+            return True
+
         for template in self.templates:
             matches, m = template.matches_format(other_permission)
             if matches:
