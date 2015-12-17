@@ -195,22 +195,24 @@ class PermissionSet(set):
         return other_permission.grants_any_permission(self)
 
     def statefulize(self, state=None):
-        delete = list()
-        add = list()
+        """Returns a new PermissionSet, with all DynamicPermissions having their state set to the provided state.
+        
+        :param state: The state to be added to the permissions in the set
+        :type state: :py:class:`dict`
+        :rtype: :py:class:`PermissionSet`
+        """
+
+        ret = PermissionSet()
 
         for perm in self:
             if hasattr(perm, 'create_stateful_permission') and not perm.state:
-                add.append(perm.create_stateful_permission(state))
-                delete.append(perm)
+                ret.add(perm.create_stateful_permission(state))
+            else:
+                ret.add(perm)
 
-        for perm in add:
-            self.add(perm)
-
-        for perm in delete:
-            self.remove(perm)
+        return ret
 
     def __getattr__(self, item):
         ret = getattr(super(PermissionSet, self), item)
         return PermissionSet(ret) if isinstance(ret, set) else ret
-
 
